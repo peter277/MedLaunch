@@ -207,7 +207,7 @@ namespace MedLaunch
             GlobalSettings.LoadGlobalSettings(chkEnableNetplay, chkEnableSnes_faust, chkEnablePce_fast, gui_zoom_combo, chkMinToTaskbar, chkHideSidebar,
                chkAllowBanners, chkAllowBoxart, chkAllowScreenshots, chkAllowFanart, chkPreferGenesis, chkAllowManuals, chkAllowMedia, chkSecondaryScraperBackup,
                rbGDB, rbMoby, slScreenshotsPerHost, slFanrtsPerHost, chkAllowUpdateCheck, chkBackupMednafenConfig, chkSaveSysConfigs, comboImageTooltipSize, chkLoadConfigsOnStart, chkEnableConfigToolTips,
-               chkshowGLYear, chkshowGLESRB, chkshowGLCoop, chkshowGLDeveloper, chkshowGLPublisher, chkshowGLPlayers, chkEnableClearCacheOnExit, chkrememberSysWinPositions, chkHideCountryFilter, cbFormatGameTitles);
+               chkshowGLYear, chkshowGLESRB, chkshowGLCoop, chkshowGLDeveloper, chkshowGLPublisher, chkshowGLPlayers, chkEnableClearCacheOnExit, chkDisableVersionMismatchWarn, chkrememberSysWinPositions, chkHideCountryFilter, cbFormatGameTitles);
             //gui_zoom.Value = Convert.ToDouble(gui_zoom_combo.SelectedValue);
             GlobalSettings gs = GlobalSettings.GetGlobals();
             mainScaleTransform.ScaleX = Convert.ToDouble(gs.guiZoom);
@@ -3300,6 +3300,15 @@ namespace MedLaunch
             GlobalSettings.UpdateEnableClearCacheOnExit(chkEnableClearCacheOnExit);
         }
 
+        private void chkDisableVersionMismatchWarn_Checked(object sender, RoutedEventArgs e)
+        {
+            GlobalSettings.UpdateDisableVersionMismatchWarn(chkDisableVersionMismatchWarn);
+        }
+
+        private void chkDisableVersionMismatchWarn_Unchecked(object sender, RoutedEventArgs e)
+        {
+            GlobalSettings.UpdateDisableVersionMismatchWarn(chkDisableVersionMismatchWarn);
+        }
 
 
 
@@ -5012,7 +5021,7 @@ namespace MedLaunch
         {
             if (UpdateStatusMF == false && UpdateStatusML == false)
             {
-                UpdatedHeader.Header = "Updates";
+                //UpdatedHeader.Header = "Updates";
             }
 
             if (UpdateStatusMF == true && UpdateStatusML == false)

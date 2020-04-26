@@ -535,7 +535,7 @@ namespace MedLaunch.Classes
             }
 
             // detect current version
-            var currDesc = Instance.CurrentMedVerDesc;
+            MednafenVersionDescriptor currDesc = Instance.CurrentMedVerDesc;
             if (currDesc == null)
             {
                 if (showDialog)
@@ -555,8 +555,8 @@ namespace MedLaunch.Classes
             }
 
             // get the min and max support mednafen versions
-            var latestDesc = Instance.LatestCompatMedVerDesc;
-            var oldestDesc = MednafenVersionDescriptor.ReturnVersionDescriptor(GetMednafenCompatibilityMatrix().Last().Version);
+            MednafenVersionDescriptor latestDesc = Instance.LatestCompatMedVerDesc;
+            MednafenVersionDescriptor oldestDesc = MednafenVersionDescriptor.ReturnVersionDescriptor(GetMednafenCompatibilityMatrix().Last().Version);
 
             // check whether the current mednafen version is within the min and max supported constraints
             // just looking at the first 3 digits of the version
@@ -564,12 +564,12 @@ namespace MedLaunch.Classes
                 currDesc.MinorINT.ToString() + "." +
                 currDesc.BuildINT.ToString();
 
-            var loookup = GetMednafenCompatibilityMatrix()
+            var lookup = GetMednafenCompatibilityMatrix()
                 .Where(a => a.Version.StartsWith(currStr)).ToList();
 
             bool isCompat;
 
-            if (loookup.Count() > 0)
+            if (lookup.Count() > 0)
             {
                 isCompat = true;
             }
@@ -588,6 +588,10 @@ namespace MedLaunch.Classes
                 // is not compatible
                 if (showDialog)
                 {
+                    // If the disable version mismatch warning option is selected, silently accept current Mednafen versions greater than or equal to the latest supported version
+                    if (GlobalSettings.GetGlobals().disableVersionMismatchWarn == true && currDesc >= latestDesc)
+                        return true;
+
                     // version doesnt match
                     StringBuilder sb = new StringBuilder();
                     sb.Append("The version of Mednafen you are trying to launch is potentially NOT compatible with this version of MedLaunch.\n\n");
@@ -697,6 +701,96 @@ namespace MedLaunch.Classes
         /// Signs that the version string was parsed successfully
         /// </summary>
         public bool IsValid { get; set; }
+
+        /// <summary>
+        /// Compare a==b based on version components. Ignores validity of objects
+        /// </summary>
+        public static bool operator ==(MednafenVersionDescriptor a, MednafenVersionDescriptor b)
+        {
+            if (object.ReferenceEquals(a, null))
+                return object.ReferenceEquals(b, null);
+
+            else if (object.ReferenceEquals(b, null))
+                return false;
+
+            else
+                return (a.MajorINT == b.MajorINT && a.MinorINT == b.MinorINT && a.BuildINT == b.BuildINT && (a.RevisionINT ?? 0) == (b.RevisionINT ?? 0));
+        }
+
+        /// <summary>
+        /// Compare a!=b based on version components. Ignores validity of objects
+        /// </summary>
+        public static bool operator !=(MednafenVersionDescriptor a, MednafenVersionDescriptor b)
+        {
+            return !(a == b);
+        }
+
+        public override bool Equals(Object obj)
+        {
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+                return false;
+            else
+                return this == (MednafenVersionDescriptor)obj;
+        }
+
+        public override int GetHashCode()
+        {
+            return Tuple.Create(MajorINT, MinorINT, BuildINT, (RevisionINT ?? 0)).GetHashCode();
+        }
+
+        /// <summary>
+        /// Compare a greater than or equal b based on version components. Ignores validity of objects
+        /// </summary>
+        public static bool operator >=(MednafenVersionDescriptor a, MednafenVersionDescriptor b)
+        {
+            return (a > b || a == b);
+        }
+
+        /// <summary>
+        /// Compare a less than or equal b based on version components. Ignores validity of objects
+        /// </summary>
+        public static bool operator <=(MednafenVersionDescriptor a, MednafenVersionDescriptor b)
+        {
+            return (a < b || a == b);
+        }
+
+        /// <summary>
+        /// Compare a greater than b based on version components. Ignores validity of objects
+        /// </summary>
+        public static bool operator >(MednafenVersionDescriptor a, MednafenVersionDescriptor b)
+        {
+            if (object.ReferenceEquals(a, null) || object.ReferenceEquals(b, null))
+                return false;
+            else if (a.MajorINT > b.MajorINT)
+                return true;
+            else if (a.MajorINT == b.MajorINT && a.MinorINT > b.MinorINT)
+                return true;
+            else if (a.MajorINT == b.MajorINT && a.MinorINT == b.MinorINT && a.BuildINT > b.BuildINT)
+                return true;
+            else if (a.MajorINT == b.MajorINT && a.MinorINT == b.MinorINT && a.BuildINT == b.BuildINT && (a.RevisionINT ?? 0) > (b.RevisionINT ?? 0))
+                return true;
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// Compare a less than b based on version components. Ignores validity of objects
+        /// </summary>
+        public static bool operator <(MednafenVersionDescriptor a, MednafenVersionDescriptor b)
+        {
+            if (object.ReferenceEquals(a, null) || object.ReferenceEquals(b, null))
+                return false;
+            else if (a.MajorINT < b.MajorINT)
+                return true;
+            else if (a.MajorINT == b.MajorINT && a.MinorINT < b.MinorINT)
+                return true;
+            else if (a.MajorINT == b.MajorINT && a.MinorINT == b.MinorINT && a.BuildINT < b.BuildINT)
+                return true;
+            else if (a.MajorINT == b.MajorINT && a.MinorINT == b.MinorINT && a.BuildINT == b.BuildINT && (a.RevisionINT ?? 0) < (b.RevisionINT ?? 0))
+                return true;
+            else
+                return false;
+        }
 
         /// <summary>
         /// Creates a version descriptor object from a string

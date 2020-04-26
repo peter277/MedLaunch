@@ -30,6 +30,7 @@ namespace MedLaunch.Models
         public bool? saveSystemConfigs { get; set; }                // auto save system.cfg in root of Mednafen directory before game is launched
         public bool? enableConfigToolTips { get; set; }             // enable tooltip popups on Mednafen config controls
         public bool? enableClearCacheOnExit { get; set; }           // clears the Data\\Cache folder on application exit
+        public bool? disableVersionMismatchWarn { get; set; }       // disable Mednafen version mismatch warning for newer versions
 
         public int changeTitleCase { get; set; }                    // 0 - no change, 1 - CamelCase, 2 - All Caps
 
@@ -193,6 +194,7 @@ namespace MedLaunch.Models
                 importConfigsOnStart = false,
                 enableConfigToolTips = true,
                 enableClearCacheOnExit = true,
+                disableVersionMismatchWarn = false,
 
                 showGLCoop = true,
                 showGLDeveloper = true,
@@ -474,7 +476,7 @@ namespace MedLaunch.Models
             CheckBox chkAllowManuals, CheckBox chkAllowMedia, CheckBox chkSecondaryScraperBackup, RadioButton rbGDB, RadioButton rbMoby, Slider slScreenshotsPerHost, Slider slFanrtsPerHost,
             CheckBox chkAllowUpdateCheck, CheckBox chkBackupMednafenConfig, CheckBox chkSaveSysConfigs, ComboBox comboImageTooltipSize, CheckBox chkLoadConfigsOnStart, CheckBox chkEnableConfigToolTips,
             CheckBox chkshowGLYear, CheckBox chkshowGLESRB, CheckBox chkshowGLCoop, CheckBox chkshowGLDeveloper, CheckBox chkshowGLPublisher, CheckBox chkshowGLPlayers, CheckBox chkEnableClearCacheOnExit, 
-            CheckBox chkrememberSysWinPositions, CheckBox chkHideCountryFilter, ComboBox cbFormatGameTitles)
+            CheckBox chkDisableVersionMismatchWarn, CheckBox chkrememberSysWinPositions, CheckBox chkHideCountryFilter, ComboBox cbFormatGameTitles)
         {
             GlobalSettings gs = GetGlobals();
             // update all checkboxes
@@ -499,6 +501,8 @@ namespace MedLaunch.Models
             chkHideCountryFilter.IsChecked = gs.hideCountryFilters;
 
             chkEnableClearCacheOnExit.IsChecked = gs.enableClearCacheOnExit;
+
+            chkDisableVersionMismatchWarn.IsChecked = gs.disableVersionMismatchWarn;
 
             comboImageTooltipSize.SelectedValue = gs.imageToolTipPercentage;
 
@@ -682,6 +686,13 @@ namespace MedLaunch.Models
         {
             GlobalSettings gs = GetGlobals();
             gs.enableClearCacheOnExit = chkEnableClearCacheOnExit.IsChecked;
+            SetGlobals(gs);
+        }
+
+        public static void UpdateDisableVersionMismatchWarn(CheckBox chk)
+        {
+            GlobalSettings gs = GetGlobals();
+            gs.disableVersionMismatchWarn = chk.IsChecked;
             SetGlobals(gs);
         }
 
