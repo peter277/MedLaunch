@@ -1209,6 +1209,7 @@
     <Resource Include="Data\Graphics\Controllers\nes_partytap.png" />
     <Resource Include="Data\Graphics\Controllers\psx_analogjoy.png" />
     <Resource Include="Data\Graphics\mediconsplash-base.png" />
+    <Resource Include="Data\Graphics\mediconsplash-new-large.png" />
     <Content Include="Data\Installers\vcredist_x86.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

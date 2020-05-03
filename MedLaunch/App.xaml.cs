@@ -108,8 +108,18 @@ namespace MedLaunch
     
             IsX86 = false;
 
+            SplashScreen splashScreen;
 
-            var splashScreen = new SplashScreen(@"Data\Graphics\mediconsplash-new.png");
+            // Use large splash screen if we are at 4K resolution
+            if (System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width>=3840 && System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height>=2160)
+            {
+                splashScreen = new SplashScreen(@"Data\Graphics\mediconsplash-new-large.png");
+            }
+            else
+            {
+                splashScreen = new SplashScreen(@"Data\Graphics\mediconsplash-new.png");
+            }
+
             splashScreen.Show(false);
             Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
