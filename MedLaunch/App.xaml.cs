@@ -121,7 +121,7 @@ namespace MedLaunch
 
             // show the initialisation window and begin checks
             ShowInitWindow();
-            Thread.Sleep(1000);
+            //Thread.Sleep(1000);
             // init should have completed - run MainWindow
 
             // instantiate GamesList object  

@@ -119,7 +119,6 @@ namespace MedLaunch
 
             // Check whether database exists
             UpdateStatus("Checking whether there is an existing database present", true);
-            Task.Delay(1);
             string dbPath = @"Data\Settings\MedLaunch.db";
             if (Operations.CheckDbExists(dbPath) == true)
             {
@@ -279,7 +278,7 @@ namespace MedLaunch
             // attempt database rename
             System.GC.Collect();
             System.GC.WaitForPendingFinalizers();
-            Thread.Sleep(10);
+            //Thread.Sleep(10);
             try
             {
                 System.IO.File.Move(AppDomain.CurrentDomain.BaseDirectory + @"Data\Settings\MedLaunch.db", AppDomain.CurrentDomain.BaseDirectory + newfileName);
@@ -1255,12 +1254,12 @@ namespace MedLaunch
             // append s to the textbox
             t.Text = output + s;
             t.Refresh();
-            Thread.Sleep(50);
+            //Thread.Sleep(50);
 
             // scroll to end
             sv.ScrollToBottom();
             sv.Refresh();
-            Thread.Sleep(50);
+            //Thread.Sleep(50);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -1280,7 +1279,7 @@ namespace MedLaunch
 
 
             UpdateStatus("Preparing to start the main MedLaunch application....", true);
-            Thread.Sleep(100);
+            //Thread.Sleep(100);
 
 
             // init has returned true - close this window and start mainwindow
