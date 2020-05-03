@@ -1,0 +1,8 @@
+
+In Data/Settings/MedLaunch.db SQLite database - to keep data compatibility between this unofficial version and current official - need to add/remove column:
+
+disableVersionMismatchWarn
+
+To inspect, execute:	pragma table_info('GlobalSettings');
+To add column execute:	alter table GlobalSettings add disableVersionMismatchWarn INTEGER;
+
