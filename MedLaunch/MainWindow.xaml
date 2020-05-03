@@ -426,11 +426,6 @@ xmlns:il="clr-namespace:Microsoft.Expression.Interactivity.Layout;assembly=Micro
 
 
     <Grid x:Name="RootGrid">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="169*"/>
-            <ColumnDefinition Width="1023*"/>
-            <ColumnDefinition Width="402*"/>
-        </Grid.ColumnDefinitions>
         <Grid.LayoutTransform>
             <ScaleTransform
                 x:Name="mainScaleTransform"

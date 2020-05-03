@@ -134,7 +134,10 @@ namespace MedLaunch
                 sh.ScrapeGame(controller);
             });
 
-            await controller.CloseAsync();
+            if (controller.IsOpen)
+            {
+                await controller.CloseAsync();
+            }
 
             if (controller.IsCanceled)
             {

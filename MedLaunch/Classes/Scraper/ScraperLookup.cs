@@ -107,7 +107,7 @@ namespace MedLaunch.Classes.Scraper
                 Title = "Pick a Game",
                 CloseOnOverlay = false,
                 ShowCloseButton = false
-            }, RootGrid);
+            });//, RootGrid);
         }
 
         /// <summary>
