@@ -22,7 +22,10 @@ namespace SplashScreenUpdater
         static void Main(string[] args)
         {
             if (args == null || args.Length != 3)
+            {
+                Console.WriteLine("Usage: SplashScreenUpdater version-string in-file out-file");
                 return;
+            }
 
             
             string baseLocation = AppDomain.CurrentDomain.BaseDirectory;
@@ -50,6 +53,10 @@ namespace SplashScreenUpdater
                 }
             }
 
+            System.Console.WriteLine("Version string:\t" + verString);
+            System.Console.WriteLine("In file:\t" + baseImgPath);
+            System.Console.WriteLine("Out file:\t" + outputImgPath);
+
             string currDate = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss") + " UTC";
 
             try
@@ -58,14 +65,14 @@ namespace SplashScreenUpdater
                 Image bitmap = (Image)Bitmap.FromFile(baseImgPath);
 
                 // create the text
-                Font font = new Font("Tahoma", 12, FontStyle.Bold, GraphicsUnit.Pixel);
-                Font font2 = new Font("Tahoma", 13, FontStyle.Bold, GraphicsUnit.Pixel);
-                Font font3 = new Font("Tahoma", 12, FontStyle.Bold, GraphicsUnit.Pixel);
+                Font font = new Font("Tahoma",  12 * (bitmap.Width >= 1000 ? 2 : 1), FontStyle.Bold, GraphicsUnit.Pixel);
+                Font font2 = new Font("Tahoma", 13 * (bitmap.Width >= 1000 ? 2 : 1), FontStyle.Bold, GraphicsUnit.Pixel);
+                Font font3 = new Font("Tahoma", 12 * (bitmap.Width >= 1000 ? 2 : 1), FontStyle.Bold, GraphicsUnit.Pixel);
                 Color color = Color.LightGray;
 
                 Point atPoint = new Point(0, (bitmap.Height));
                 Point atPoint2 = new Point(bitmap.Width, (bitmap.Height));
-                Point atPoint3 = new Point(bitmap.Width / 2, (bitmap.Height - 262));
+                Point atPoint3 = new Point(bitmap.Width / 2, (int)((bitmap.Height)*0.2225));
 
                 SolidBrush brush = new SolidBrush(color);
                 SolidBrush brush2 = new SolidBrush(Color.Brown);
@@ -91,9 +98,9 @@ namespace SplashScreenUpdater
                 bitmap.Save(outputImgPath, System.Drawing.Imaging.ImageFormat.Png);
                 bitmap.Dispose();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+				System.Console.WriteLine("Exception: " + e.Message);
             }            
         }
     }
