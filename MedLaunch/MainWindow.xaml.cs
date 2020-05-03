@@ -184,11 +184,12 @@ namespace MedLaunch
             string linkTimeLocal = (Assembly.GetExecutingAssembly().GetLinkerTime()).ToString("yyyy-MM-dd HH:mm:ss");
 
             if (devBuildNo == null)
-                this.Title = "MedLaunch (v" + appVersion + ") - Windows Front-End for Mednafen";
+                //this.Title = "MedLaunch (v" + appVersion + ") - Windows Front-End for Mednafen";
+                this.Title = "MedLaunch"; // Front-End for Mednafen";
             else
                 this.Title = "MedLaunch (v" + appVersion + ") - DevBuild-" + devBuildNo + " - Windows Front-End for Mednafen";
 
-            rightMenuLabel.Text = "(Compatible Mednafen v" + VersionChecker.GetMednafenCompatibilityMatrix().Last().Version + " - v" + VersionChecker.GetMednafenCompatibilityMatrix().First().Version + ")";
+            //rightMenuLabel.Text = "(Compatible Mednafen v" + VersionChecker.GetMednafenCompatibilityMatrix().Last().Version + " - v" + VersionChecker.GetMednafenCompatibilityMatrix().First().Version + ")";
 
             /*
              *  Startup checks
@@ -318,7 +319,7 @@ namespace MedLaunch
             _searchTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
 
             // set background image
-            SetBackgroundImage();
+            SetBackgroundImage(); // Comment out to disable background image
 
             // Run an emptyload of the log parser (running mednafen once if neccesary to generate log files)
             LogParser.Instance.ParseData();
