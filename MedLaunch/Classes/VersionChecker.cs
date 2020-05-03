@@ -485,6 +485,7 @@ namespace MedLaunch.Classes
                         targetDesc.RevisionINT;
                 }
 
+                // TODO: change to > and place at start of loop
                 if (currIntOnly == targetIntOnly)
                 {
                     // we have reached the targeted version and all transformations should have been applied

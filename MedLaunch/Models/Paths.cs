@@ -336,7 +336,7 @@ namespace MedLaunch.Models
             // if option is selected make a backup of the mednafen config file
             BackupConfig.BackupMain();
             // mednafen versions
-            mw.UpdateCheckMednafen();
+            //mw.UpdateCheckMednafen(); // Do not check at startup (for speed reasons)
         }
 
         public static void MedPathRoutine(Button btnPathMednafen, TextBox tbPathMednafen)

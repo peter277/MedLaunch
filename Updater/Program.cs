@@ -58,6 +58,7 @@ namespace Updater
                     Console.WriteLine("Starting MedLaunch database upgrade..");
                     Thread.Sleep(10000);
                     //UpgradeDatabase(arr2[1]);
+					// TODO: CODE THIS UpgradeDatabase method so that it does something??
                 }
                 if (arg.Contains("/U:"))
                 {
