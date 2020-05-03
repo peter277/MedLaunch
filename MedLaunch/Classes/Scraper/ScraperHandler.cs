@@ -23,7 +23,7 @@ namespace MedLaunch.Classes.Scraper
         public GlobalSettings _GlobalSettings { get; set; }
         public MainWindow mw { get; set; }
         public int GameId { get; set; }
-
+        public bool ScrapingFailed { get; private set; }
 
         /* Constructors */
 
@@ -38,6 +38,8 @@ namespace MedLaunch.Classes.Scraper
             _GlobalSettings = SSearch._GlobalSettings;
             mw = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
             GameId = gameId;
+
+            ScrapingFailed = false;
         }
 
         public ScraperHandler(int gdbId, int gameId, bool MainWindowRequired)
@@ -48,6 +50,8 @@ namespace MedLaunch.Classes.Scraper
             if (MainWindowRequired == true)
                 mw = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
             GameId = gameId;
+
+            ScrapingFailed = false;
         }
 
         /* Methods */
@@ -264,23 +268,31 @@ namespace MedLaunch.Classes.Scraper
 
                 gameObject.Manuals = MasterRecord.Game_Docs;
             }
-            
 
-            // enumerate globalsettings
-            switch (_GlobalSettings.primaryScraper)
+
+            try
             {
-                case 1:
-                    // gamesdb.net is primary scraper
-                    GDBScraper.ScrapeGame(gameObject, ScraperOrder.Primary, controller, MasterRecord, message);
-                    if (_GlobalSettings.enabledSecondaryScraper == true)
-                        MobyScraper.ScrapeGame(gameObject, ScraperOrder.Secondary, controller, MasterRecord, message);
-                    break;
-                case 2:
-                    // moby is primary scraper
-                    MobyScraper.ScrapeGame(gameObject, ScraperOrder.Primary, controller, MasterRecord, message);
-                    if (_GlobalSettings.enabledSecondaryScraper == true)
-                        GDBScraper.ScrapeGame(gameObject, ScraperOrder.Secondary, controller, MasterRecord, message);
-                    break;
+                // enumerate globalsettings
+                switch (_GlobalSettings.primaryScraper)
+                {
+                    case 1:
+                        // gamesdb.net is primary scraper
+                        GDBScraper.ScrapeGame(gameObject, ScraperOrder.Primary, controller, MasterRecord, message);
+                        if (_GlobalSettings.enabledSecondaryScraper == true)
+                            MobyScraper.ScrapeGame(gameObject, ScraperOrder.Secondary, controller, MasterRecord, message);
+                        break;
+                    case 2:
+                        // moby is primary scraper
+                        MobyScraper.ScrapeGame(gameObject, ScraperOrder.Primary, controller, MasterRecord, message);
+                        if (_GlobalSettings.enabledSecondaryScraper == true)
+                            GDBScraper.ScrapeGame(gameObject, ScraperOrder.Secondary, controller, MasterRecord, message);
+                        break;
+                }
+            }
+            catch
+            {
+                ScrapingFailed = true;
+                return;
             }
 
             if (controller.IsCanceled == true)

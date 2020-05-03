@@ -142,6 +142,11 @@ namespace MedLaunch
                 //GamesLibraryVisualHandler.UpdateSidebar();
                 GamesLibraryView.RestoreSelectedRow();
             }
+            else if (sh.ScrapingFailed)
+            {
+                await mw.ShowMessageAsync("MedLaunch Scraper", "Scraping Failed");
+                GamesLibraryView.RestoreSelectedRow();
+            }
             else
             {
                 await mw.ShowMessageAsync("MedLaunch Scraper", "Scraping Completed");
